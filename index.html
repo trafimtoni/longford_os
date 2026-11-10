@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#101116">
+<title>LONGFORD OS 3.0</title>
+<style>
+:root{--bg:#101116;--panel:rgba(31,34,43,.94);--panel2:#252934;--accent:#d5aa76;--text:#f3f3f4;--muted:#9299a7;--border:rgba(255,255,255,.08)}
+*{-webkit-box-sizing:border-box;box-sizing:border-box}
+body{margin:0;padding:18px;background:#101116;background-size:cover;background-position:center;background-attachment:fixed;color:var(--text);font-family:Arial,sans-serif}
+body:before{content:"";position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(10,11,15,.18);z-index:-1}
+.container{max-width:1050px;margin:0 auto}
+header{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;margin-bottom:22px}
+.logo{font-size:23px;font-weight:bold;letter-spacing:4px}.version{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:5px}
+.icon-button{background:var(--panel);color:var(--accent);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:17px}
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:23px;padding:25px;margin-bottom:15px}
+.time{font-size:68px;font-weight:300;letter-spacing:-3px}.date{color:var(--muted);margin-top:7px}
+.section-title{font-size:11px;letter-spacing:2px;color:var(--muted);margin:24px 4px 12px}
+.grid{font-size:0;margin-left:-6px;margin-right:-6px}
+.card{display:inline-block;vertical-align:top;width:calc(50% - 12px);margin:0 6px 12px;font-size:14px;min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:19px;padding:18px;overflow:hidden}
+.card h3{font-size:12px;font-weight:normal;color:var(--muted);letter-spacing:1.5px;margin:0 0 15px}
+.big{font-size:34px;font-weight:300}.muted{color:var(--muted);font-size:12px;line-height:1.5}
+input,textarea,select{width:100%;min-width:0;padding:11px;margin:5px 0;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:14px}
+textarea{min-height:90px;resize:vertical}
+button{background:var(--accent);color:#171717;border:0;border-radius:9px;padding:10px 13px;margin:5px 3px 5px 0;font-weight:bold;font-size:12px}
+button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+button.small{padding:7px 9px;font-size:11px}
+button:active{opacity:.7}
+.weather-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}
+.weather-row:last-child{border:0}
+.player-card{background:-webkit-linear-gradient(145deg,rgba(57,47,66,.97),rgba(25,28,38,.97));background:linear-gradient(145deg,rgba(57,47,66,.97),rgba(25,28,38,.97))}
+.album-art{width:190px;height:190px;max-width:100%;margin:2px auto 17px;border-radius:17px;background:-webkit-linear-gradient(135deg,#5e526d,#c18b73);background:linear-gradient(135deg,#5e526d,#c18b73);overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.3);text-align:center;line-height:190px;font-size:58px;color:rgba(255,255,255,.8)}
+.album-art img{width:100%;height:100%;object-fit:cover;display:block}
+.track-title{text-align:center;font-size:18px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track-artist{text-align:center;color:var(--muted);font-size:12px;margin-top:5px}
+.player-progress{margin-top:17px}
+input[type=range]{padding:0;margin:8px 0;accent-color:var(--accent)}
+.time-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;color:var(--muted);font-size:10px}
+.player-controls{text-align:center;margin:10px 0}
+.player-controls button{border-radius:50%;width:42px;height:42px;padding:0;font-size:16px;margin:3px 8px}
+.player-controls button.play{width:54px;height:54px;font-size:21px}
+.playlist{margin-top:10px;max-height:140px;overflow:auto}
+.playlist-item{padding:9px;border-top:1px solid var(--border);font-size:12px;cursor:pointer}
+.playlist-item.active{color:var(--accent)}
+.event,.device,.forecast-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.event:last-child,.device:last-child{border:0}
+.event-date{color:var(--accent);font-size:11px}.event-name{margin-top:4px;font-size:13px}
+.calendar-head{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:10px}
+.calendar-month{font-size:16px;font-weight:bold}
+.calendar-grid{font-size:0;text-align:center}
+.cal-cell{display:inline-block;vertical-align:top;width:14.285%;min-height:39px;padding:7px 1px;font-size:11px;border-radius:7px;color:var(--muted);position:relative}
+.cal-cell.weekday{min-height:25px;color:var(--accent);font-size:9px}
+.cal-cell.today{background:var(--panel2);color:#fff}
+.cal-cell.selected{outline:1px solid var(--accent);color:#fff}
+.cal-cell.has-event:after{content:"";position:absolute;bottom:3px;left:50%;margin-left:-2px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.rate-line{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border)}
+.rate-value{font-size:23px}.rate-label{color:var(--muted);font-size:11px}
+.device{font-size:13px}.device-name{display:inline-block;max-width:65%;vertical-align:middle}
+.device-state{float:right;color:var(--accent);font-size:11px}
+.theme-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin:8px 0}
+.swatch{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.3);margin:4px}
+.footer{text-align:center;font-size:10px;color:var(--muted);letter-spacing:2px;padding:25px 0 12px}
+.status{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5}
+.hidden{display:none!important}
+@media(max-width:650px){body{padding:12px}.card{width:calc(100% - 12px)}.hero{padding:20px}.time{font-size:58px}.logo{font-size:19px}.album-art{width:170px;height:170px;line-height:170px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header><div><div class="logo">LONGFORD OS.</div><div class="version">PERSONAL DIGITAL ENVIRONMENT · 3.0</div></div><button class="icon-button" onclick="showSettings()">⚙</button></header>
+<div class="hero"><div class="time" id="clock">00:00</div><div class="date" id="date">Загрузка...</div></div>
+<div class="section-title">DAILY OVERVIEW</div>
+<div class="grid">
+
+<div class="card">
+<h3>ПОГОДА</h3><div class="muted" id="weatherCity">Укажи свой город</div><div class="big" id="temperature">--°</div><div id="weatherDescription" class="muted">Нет данных</div>
+<div class="weather-row"><span>Ощущается как</span><span id="feels">--°</span></div><div class="weather-row"><span>Влажность</span><span id="humidity">--%</span></div><div class="weather-row"><span>Ветер</span><span id="wind">-- км/ч</span></div>
+<input id="cityInput" placeholder="Например, Minsk"><button onclick="loadWeather()">Обновить погоду</button>
+<div class="section-title">ПРОГНОЗ НА 5 ДНЕЙ</div><div id="forecast" class="muted">Введите город выше</div>
+</div>
+
+<div class="card player-card">
+<h3>NOW PLAYING</h3>
+<div class="album-art" id="albumArt">♫</div>
+<div class="track-title" id="trackName">Выберите музыку</div><div class="track-artist" id="trackArtist">Локальная медиатека</div>
+<div class="player-progress"><input type="range" id="seek" min="0" max="100" value="0"><div class="time-row"><span id="currentTime">0:00</span><span id="duration">0:00</span></div></div>
+<div class="player-controls"><button class="secondary" onclick="previousTrack()">|◀</button><button class="play" id="playButton" onclick="togglePlay()">▶</button><button class="secondary" onclick="nextTrack()">▶|</button></div>
+<div class="weather-row"><span>ГРОМКОСТЬ</span><input style="width:55%;margin:0" type="range" id="volume" min="0" max="1" step="0.05" value="0.8"></div>
+<input type="file" id="musicFiles" accept="audio/*" multiple>
+<input type="file" id="coverFile" accept="image/*">
+<div class="muted">Выбери один или несколько аудиофайлов. Обложку можно добавить отдельно.</div>
+<div class="playlist" id="playlist"></div>
+<audio id="audio" preload="metadata"></audio>
+</div>
+
+<div class="card">
+<h3>КАЛЕНДАРЬ</h3>
+<div class="calendar-head"><button class="secondary small" onclick="changeMonth(-1)">‹</button><div class="calendar-month" id="calendarMonth"></div><button class="secondary small" onclick="changeMonth(1)">›</button></div>
+<div class="calendar-grid" id="calendarGrid"></div>
+<div class="section-title" id="selectedDateLabel">СОБЫТИЯ</div>
+<div id="dayEvents" class="muted">Выбери дату</div>
+<input id="eventName" placeholder="Название события"><input id="eventDate" type="date"><input id="eventTime" type="time">
+<button onclick="addEvent()">Добавить событие</button>
+</div>
+
+<div class="card">
+<h3>КУРС ВАЛЮТ · BYN</h3>
+<div class="rate-line"><div><div class="rate-label">🇺🇸 ДОЛЛАР США</div><div class="muted">1 USD</div></div><div class="rate-value" id="usdRate">—</div></div>
+<div class="rate-line"><div><div class="rate-label">🇪🇺 ЕВРО</div><div class="muted">1 EUR</div></div><div class="rate-value" id="eurRate">—</div></div>
+<div class="status" id="rateDate">Загрузка официальных курсов НБРБ...</div>
+<button class="secondary small" onclick="loadRates()">Обновить курс</button>
+</div>
+
+<div class="card">
+<h3>УМНЫЙ ДОМ</h3>
+<div class="muted">Подключение через Home Assistant. Введи адрес сервера и долгосрочный токен доступа.</div>
+<input id="haUrl" placeholder="http://homeassistant.local:8123">
+<input id="haToken" type="password" placeholder="Long-Lived Access Token">
+<button onclick="connectHome()">Подключить</button><button class="secondary" onclick="disconnectHome()">Отключить</button>
+<div class="status" id="haStatus">Не подключено</div>
+<div id="devices"></div>
+<div class="status">Управление появится после подключения. Токен хранится локально в браузере этого iPad.</div>
+</div>
+
+<div class="card">
+<h3>ЗАМЕТКИ</h3><textarea id="notes" placeholder="Твои мысли и идеи..."></textarea><button onclick="saveNotes()">Сохранить заметки</button>
+</div>
+
+<div class="card" id="settings">
+<h3>ВНЕШНИЙ ВИД</h3><div class="muted">Цветовая тема</div>
+<div class="theme-row">
+<div class="swatch" style="background:#d5aa76" onclick="setTheme('#d5aa76')"></div><div class="swatch" style="background:#81a9d9" onclick="setTheme('#81a9d9')"></div><div class="swatch" style="background:#a48bd5" onclick="setTheme('#a48bd5')"></div><div class="swatch" style="background:#83b99a" onclick="setTheme('#83b99a')"></div><div class="swatch" style="background:#e17e88" onclick="setTheme('#e17e88')"></div>
+</div>
+<div class="muted">Фон</div><div class="theme-row">
+<button class="secondary small" onclick="setWallpaper('dark')">Graphite</button><button class="secondary small" onclick="setWallpaper('blue')">Midnight</button><button class="secondary small" onclick="setWallpaper('warm')">Warm</button><button class="secondary small" onclick="setWallpaper('forest')">Forest</button>
+</div>
+<div class="muted">Своя фотография</div><input type="file" id="wallpaperFile" accept="image/*"><button class="secondary" onclick="resetWallpaper()">Сбросить фон</button>
+</div>
+</div>
+<div class="footer">LONGFORD OS · VERSION 3.0 · PERSONAL EDITION</div>
+</div>
+
+<script>
+function save(key,value){try{localStorage.setItem("longford_"+key,JSON.stringify(value));return true;}catch(e){return false;}}
+function get(key,def){try{var v=localStorage.getItem("longford_"+key);return v?JSON.parse(v):def;}catch(e){return def;}}
+function escapeHTML(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+function request(url,callback,headers){var xhr=new XMLHttpRequest();xhr.open("GET",url,true);xhr.timeout=15000;if(headers){for(var k in headers){if(headers.hasOwnProperty(k))xhr.setRequestHeader(k,headers[k]);}}xhr.onreadystatechange=function(){if(xhr.readyState===4){if(xhr.status>=200&&xhr.status<300){try{callback(null,JSON.parse(xhr.responseText));}catch(e){callback(e);}}else callback(new Error("HTTP "+xhr.status));}};xhr.ontimeout=function(){callback(new Error("Время ожидания истекло"));};xhr.onerror=function(){callback(new Error("Ошибка соединения или CORS"));};xhr.send();}
+function updateClock(){var d=new Date(),h=String(d.getHours()),m=String(d.getMinutes());document.getElementById("clock").innerHTML=(h.length<2?"0":"")+h+":"+(m.length<2?"0":"")+m;var days=["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],months=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];document.getElementById("date").innerHTML=days[d.getDay()]+", "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear();}
+updateClock();setInterval(updateClock,1000);
+
+function weatherText(c){if(c===0)return"Ясно ☀";if(c<=2)return"Переменная облачность ⛅";if(c===3)return"Облачно ☁";if(c<=48)return"Туман 🌫";if(c<=67)return"Дождь 🌧";if(c<=77)return"Снег ❄";if(c<=82)return"Ливень 🌧";if(c<=86)return"Снегопад ❄";return"Гроза ⛈";}
+function loadWeather(){var city=document.getElementById("cityInput").value.replace(/^\s+|\s+$/g,"");if(!city){city=get("city","Minsk");document.getElementById("cityInput").value=city;}document.getElementById("weatherDescription").innerHTML="Загружаем прогноз...";var url="https://geocoding-api.open-meteo.com/v1/search?name="+encodeURIComponent(city)+"&count=1&language=ru&format=json";request(url,function(err,data){if(err||!data.results||!data.results.length){document.getElementById("weatherDescription").innerHTML="Не удалось найти город или нет соединения.";return;}var p=data.results[0];save("city",city);document.getElementById("weatherCity").innerHTML=escapeHTML(p.name+(p.country?", "+p.country:""));var u="https://api.open-meteo.com/v1/forecast?latitude="+p.latitude+"&longitude="+p.longitude+"&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=5&timezone=auto";request(u,function(e,w){if(e||!w.current||!w.daily){document.getElementById("weatherDescription").innerHTML="Ошибка загрузки прогноза";return;}var c=w.current;document.getElementById("temperature").innerHTML=Math.round(c.temperature_2m)+"°";document.getElementById("weatherDescription").innerHTML=weatherText(c.weather_code);document.getElementById("feels").innerHTML=Math.round(c.apparent_temperature)+"°";document.getElementById("humidity").innerHTML=c.relative_humidity_2m+"%";document.getElementById("wind").innerHTML=Math.round(c.wind_speed_10m)+" км/ч";var out="";for(var i=0;i<w.daily.time.length;i++){out+='<div class="weather-row"><span>'+w.daily.time[i].substring(5)+" · "+weatherText(w.daily.weather_code[i])+'</span><span>'+Math.round(w.daily.temperature_2m_min[i])+"° / "+Math.round(w.daily.temperature_2m_max[i])+"°</span></div>";}document.getElementById("forecast").innerHTML=out;});});}
+document.getElementById("cityInput").value=get("city","Minsk");loadWeather();
+
+/* MUSIC PLAYER */
+var audio=document.getElementById("audio"),tracks=[],trackIndex=0,coverUrl=null;
+function formatTime(t){if(!isFinite(t)||t<0)t=0;var m=Math.floor(t/60),s=Math.floor(t%60);return m+":"+(s<10?"0":"")+s;}
+function renderPlaylist(){var h="";for(var i=0;i<tracks.length;i++){h+='<div class="playlist-item '+(i===trackIndex?"active":"")+'" onclick="playTrack('+i+')">'+(i+1)+". "+escapeHTML(tracks[i].name)+'</div>';}document.getElementById("playlist").innerHTML=h;}
+function playTrack(i){if(i<0||i>=tracks.length)return;trackIndex=i;audio.src=tracks[i].url;audio.load();document.getElementById("trackName").innerHTML=escapeHTML(tracks[i].name.replace(/\.[^.]+$/,""));document.getElementById("trackArtist").innerHTML="Локальная медиатека";renderPlaylist();var p=audio.play();if(p&&p.catch){p.catch(function(){document.getElementById("playButton").innerHTML="▶";});}}
+function togglePlay(){if(!audio.src){alert("Сначала выбери аудиофайл.");return;}if(audio.paused){var p=audio.play();if(p&&p.catch)p.catch(function(){});}else audio.pause();}
+function previousTrack(){if(!tracks.length)return;playTrack((trackIndex-1+tracks.length)%tracks.length);}
+function nextTrack(){if(!tracks.length)return;playTrack((trackIndex+1)%tracks.length);}
+audio.addEventListener("play",function(){document.getElementById("playButton").innerHTML="Ⅱ";});
+audio.addEventListener("pause",function(){document.getElementById("playButton").innerHTML="▶";});
+audio.addEventListener("timeupdate",function(){var seek=document.getElementById("seek");if(audio.duration){seek.value=(audio.currentTime/audio.duration)*100;}document.getElementById("currentTime").innerHTML=formatTime(audio.currentTime);document.getElementById("duration").innerHTML=formatTime(audio.duration);});
+audio.addEventListener("ended",nextTrack);
+document.getElementById("seek").addEventListener("change",function(){if(audio.duration)audio.currentTime=(Number(this.value)/100)*audio.duration;});
+document.getElementById("volume").addEventListener("change",function(){audio.volume=Number(this.value);});audio.volume=.8;
+document.getElementById("musicFiles").onchange=function(){var files=this.files;if(!files||!files.length)return;for(var i=0;i<files.length;i++){tracks.push({name:files[i].name,url:URL.createObjectURL(files[i])});}renderPlaylist();if(tracks.length)playTrack(tracks.length-files.length);};
+document.getElementById("coverFile").onchange=function(){var f=this.files[0];if(!f)return;if(coverUrl)URL.revokeObjectURL(coverUrl);coverUrl=URL.createObjectURL(f);document.getElementById("albumArt").innerHTML='<img src="'+coverUrl+'" alt="Обложка">';};
+
+/* CALENDAR */
+var events=get("events",[]),calendarDate=new Date(),selectedDate=dateKey(new Date());
+function pad(n){return n<10?"0"+n:String(n);}
+function dateKey(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+function renderCalendar(){var y=calendarDate.getFullYear(),m=calendarDate.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),offset=(first.getDay()+6)%7;var names=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"],html="",months=["ЯНВАРЬ","ФЕВРАЛЬ","МАРТ","АПРЕЛЬ","МАЙ","ИЮНЬ","ИЮЛЬ","АВГУСТ","СЕНТЯБРЬ","ОКТЯБРЬ","НОЯБРЬ","ДЕКАБРЬ"];document.getElementById("calendarMonth").innerHTML=months[m]+" "+y;for(var j=0;j<7;j++)html+='<div class="cal-cell weekday">'+names[j]+"</div>";for(var z=0;z<offset;z++)html+='<div class="cal-cell"></div>';for(var day=1;day<=last.getDate();day++){var d=new Date(y,m,day),key=dateKey(d),has=false;for(var k=0;k<events.length;k++){if(events[k].date===key){has=true;break;}}var cls="cal-cell";if(key===dateKey(new Date()))cls+=" today";if(key===selectedDate)cls+=" selected";if(has)cls+=" has-event";html+='<div class="'+cls+'" onclick="selectDate(\''+key+'\')">'+day+"</div>";}document.getElementById("calendarGrid").innerHTML=html;renderDayEvents();}
+function changeMonth(n){calendarDate.setMonth(calendarDate.getMonth()+n);renderCalendar();}
+function selectDate(key){selectedDate=key;document.getElementById("eventDate").value=key;renderCalendar();}
+function renderDayEvents(){document.getElementById("selectedDateLabel").innerHTML="СОБЫТИЯ · "+selectedDate;var list=[];for(var i=0;i<events.length;i++)if(events[i].date===selectedDate)list.push(events[i]);list.sort(function(a,b){return a.time.localeCompare(b.time);});var h="";for(var j=0;j<list.length;j++){var original=events.indexOf(list[j]);h+='<div class="event"><div class="event-date">'+escapeHTML(list[j].time)+'</div><div class="event-name">'+escapeHTML(list[j].name)+'</div><button class="secondary small" onclick="deleteEvent('+original+')">Удалить</button></div>';}document.getElementById("dayEvents").innerHTML=h||'<div class="muted">На эту дату событий нет</div>';}
+function addEvent(){var name=document.getElementById("eventName").value.replace(/^\s+|\s+$/g,""),date=document.getElementById("eventDate").value,time=document.getElementById("eventTime").value||"00:00";if(!name||!date){alert("Укажи название и дату события.");return;}events.push({name:name,date:date,time:time});save("events",events);selectedDate=date;calendarDate=new Date(date+"T12:00:00");document.getElementById("eventName").value="";renderCalendar();}
+function deleteEvent(i){events.splice(i,1);save("events",events);renderCalendar();}
+document.getElementById("eventDate").value=selectedDate;renderCalendar();
+
+/* CURRENCY: official National Bank of Belarus rates */
+function loadRates(){document.getElementById("rateDate").innerHTML="Получаем данные НБРБ...";request("https://api.nbrb.by/exrates/rates?periodicity=0",function(err,data){if(err||!data){document.getElementById("rateDate").innerHTML="Не удалось получить курс. Проверь интернет.";return;}var usd=null,eur=null;for(var i=0;i<data.length;i++){if(data[i].Cur_Abbreviation==="USD")usd=data[i];if(data[i].Cur_Abbreviation==="EUR")eur=data[i];}if(usd)document.getElementById("usdRate").innerHTML=(usd.Cur_OfficialRate/usd.Cur_Scale).toFixed(4)+" BYN";if(eur)document.getElementById("eurRate").innerHTML=(eur.Cur_OfficialRate/eur.Cur_Scale).toFixed(4)+" BYN";document.getElementById("rateDate").innerHTML="Официальные курсы НБРБ · обновлено: "+(usd?usd.Date.substring(0,10):"сегодня");});}
+loadRates();
+
+/* HOME ASSISTANT */
+function haConfig(){return{url:document.getElementById("haUrl").value.replace(/\/+$/,""),token:document.getElementById("haToken").value};}
+function connectHome(){var c=haConfig();if(!c.url||!c.token){alert("Укажи адрес Home Assistant и токен.");return;}save("haUrl",c.url);save("haToken",c.token);loadDevices();}
+function disconnectHome(){document.getElementById("haToken").value="";document.getElementById("devices").innerHTML="";document.getElementById("haStatus").innerHTML="Отключено. Сохранённый токен можно удалить в настройках браузера.";try{localStorage.removeItem("longford_haToken");}catch(e){}}
+function haRequest(path,method,body,callback){var c=haConfig();if(!c.url||!c.token){callback(new Error("Нет настроек подключения"));return;}var x=new XMLHttpRequest();x.open(method,c.url+"/api/"+path,true);x.setRequestHeader("Authorization","Bearer "+c.token);x.setRequestHeader("Content-Type","application/json");x.timeout=15000;x.onreadystatechange=function(){if(x.readyState===4){if(x.status>=200&&x.status<300){var data=null;try{data=x.responseText?JSON.parse(x.responseText):{};}catch(e){}callback(null,data);}else callback(new Error("HTTP "+x.status+" — проверь адрес, токен и доступность API"));}};x.onerror=function(){callback(new Error("Не удалось соединиться. Проверь HTTPS/CORS и адрес сервера."));};x.ontimeout=function(){callback(new Error("Истекло время ожидания"));};x.send(body?JSON.stringify(body):null);}
+function loadDevices(){var c=haConfig();if(!c.url||!c.token){document.getElementById("haStatus").innerHTML="Не подключено";return;}document.getElementById("haStatus").innerHTML="Подключаемся...";haRequest("states","GET",null,function(err,data){if(err){document.getElementById("haStatus").innerHTML=escapeHTML(err.message);return;}document.getElementById("haStatus").innerHTML="Подключено · "+data.length+" сущностей";var h="";for(var i=0;i<data.length;i++){var id=data[i].entity_id,domain=id.split(".")[0];if(["light","switch","fan","input_boolean"].indexOf(domain)<0)continue;var friendly=data[i].attributes&&data[i].attributes.friendly_name?data[i].attributes.friendly_name:id;var on=data[i].state==="on";h+='<div class="device"><span class="device-name">'+escapeHTML(friendly)+'</span><span class="device-state">'+(on?"ВКЛ":"ВЫКЛ")+'</span><br><button class="secondary small" onclick="toggleDevice(\''+id+'\','+(on?"false":"true")+')">'+(on?"Выключить":"Включить")+'</button></div>';}document.getElementById("devices").innerHTML=h||'<div class="status">Не найдены свет, розетки, вентиляторы или переключатели.</div>';});}
+function toggleDevice(id,on){var domain=id.split(".")[0],service=on?"turn_on":"turn_off";haRequest("services/"+domain+"/"+service,"POST",{entity_id:id},function(err){if(err){document.getElementById("haStatus").innerHTML=escapeHTML(err.message);}else{loadDevices();}});}
+document.getElementById("haUrl").value=get("haUrl","");document.getElementById("haToken").value=get("haToken","");if(get("haUrl","")&&get("haToken",""))loadDevices();
+
+/* NOTES */
+var notes=document.getElementById("notes");notes.value=get("notes","");function saveNotes(){save("notes",notes.value);alert("Заметки сохранены.");}
+
+/* THEMES AND WALLPAPERS */
+function setTheme(color){document.documentElement.style.setProperty("--accent",color);save("theme",color);}
+setTheme(get("theme","#d5aa76"));
+var wallpapers={dark:"linear-gradient(135deg,#101116,#20242e)",blue:"linear-gradient(135deg,#0b1528,#263c5b)",warm:"linear-gradient(135deg,#211711,#58402f)",forest:"linear-gradient(135deg,#101c18,#284438)"};
+function setWallpaper(name){document.body.style.backgroundImage=wallpapers[name]||wallpapers.dark;save("wallpaper",name);try{localStorage.removeItem("longford_custom_wallpaper");}catch(e){}}
+function resetWallpaper(){setWallpaper("dark");}
+setWallpaper(get("wallpaper","dark"));
+document.getElementById("wallpaperFile").onchange=function(){var file=this.files[0];if(!file)return;if(file.size>700000){alert("Выбери изображение до 700 КБ для экономии памяти iPad.");return;}var r=new FileReader();r.onload=function(e){try{localStorage.setItem("longford_custom_wallpaper",e.target.result);document.body.style.backgroundImage="url('"+e.target.result+"')";}catch(err){alert("Не удалось сохранить фон. Попробуй изображение меньшего размера.");}};r.readAsDataURL(file);};
+try{var custom=localStorage.getItem("longford_custom_wallpaper");if(custom)document.body.style.backgroundImage="url('"+custom+"')";}catch(e){}
+function showSettings(){document.getElementById("settings").scrollIntoView();}
+</script>
+</body>
+</html>
